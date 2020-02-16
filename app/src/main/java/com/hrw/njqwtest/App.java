@@ -2,7 +2,7 @@ package com.hrw.njqwtest;
 
 import android.app.Application;
 
-import com.hrw.njqwtest.base.utils.SPUtil;
+import com.hrw.njqwtest.base.utils.SPHelper;
 
 /**
  * @version 1.0.0
@@ -14,6 +14,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SPUtil.INSTANCE(this, "NJQW");
+        SPHelper.instance(this, "NJQW");
     }
 }

@@ -1,13 +1,9 @@
 package com.hrw.njqwtest.ui.main;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.hrw.njqwtest.R;
-import com.hrw.njqwtest.base.BaseActivity;
+import com.hrw.njqwtest.base.BaseViewModelActivity;
 import com.hrw.njqwtest.base.net.ResponseListener;
-import com.hrw.njqwtest.base.utils.SPUtil;
+import com.hrw.njqwtest.base.utils.SPHelper;
 import com.hrw.njqwtest.bean.BarrierItemBO;
 import com.hrw.njqwtest.bean.LoginUserBO;
 import com.hrw.njqwtest.bean.TodayLeaderBO;
@@ -16,18 +12,18 @@ import com.hrw.njqwtest.viewmodel.model.HomeModel;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
-    private HomeModel mHomeModel;
-    private ActivityMainBinding mMainBinding;
+import androidx.lifecycle.Observer;
 
+public class MainActivity extends BaseViewModelActivity<HomeModel, ActivityMainBinding> {
+
+    @Override
+    protected int getResLayout() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void init() {
-        mMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        mHomeModel = ViewModelProviders.of(this).get(HomeModel.class);
-
-        mHomeModel.getTodayLeaderData().observe(this, new Observer<List<TodayLeaderBO>>() {
+        mViewModel.getTodayLeaderData().observe(this, new Observer<List<TodayLeaderBO>>() {
             @Override
             public void onChanged(List<TodayLeaderBO> todayLeaderBOS) {
 //                mMainBinding.tvDutyLeader.setText(todayLeaderBOS.get(0).getPOLICENAME());
@@ -35,7 +31,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mHomeModel.getBarrierItem().observe(this, new Observer<List<BarrierItemBO>>() {
+        mViewModel.getBarrierItem().observe(this, new Observer<List<BarrierItemBO>>() {
             @Override
             public void onChanged(List<BarrierItemBO> barrierItemBOS) {
 
@@ -45,12 +41,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void getDates() {
-        LoginUserBO userBO = SPUtil.MANAGER().getObject("LOGIN_USER", LoginUserBO.class);
-        mMainBinding.setLoginUser(userBO);
-        mHomeModel.getBarrierItemDates(userBO.getPoliceNum(), new ResponseListener<List<BarrierItemBO>>() {
+        LoginUserBO userBO = SPHelper.getInstance().manager.getObject("LOGIN_USER", LoginUserBO.class);
+        mBindingUtil.setLoginUser(userBO);
+        mViewModel.getBarrierItemDates(userBO.getPoliceNum(), new ResponseListener<List<BarrierItemBO>>() {
             @Override
             public void onDataSuccess(List<BarrierItemBO> data, String msg) {
-                mHomeModel.getBarrierItem().setValue(data);
+                mViewModel.getBarrierItem().setValue(data);
             }
 
             @Override
@@ -64,10 +60,10 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mHomeModel.getZbldInfoByDeptId(userBO.getDepartmentId(), new ResponseListener<List<TodayLeaderBO>>() {
+        mViewModel.getZbldInfoByDeptId(userBO.getDepartmentId(), new ResponseListener<List<TodayLeaderBO>>() {
             @Override
             public void onDataSuccess(List<TodayLeaderBO> data, String msg) {
-                mHomeModel.getTodayLeaderData().setValue(data);
+                mViewModel.getTodayLeaderData().setValue(data);
             }
 
             @Override
@@ -83,4 +79,8 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected Class<HomeModel> returnClass() {
+        return HomeModel.class;
+    }
 }

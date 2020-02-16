@@ -1,11 +1,11 @@
 package com.hrw.njqwtest.viewmodel.model;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
+import com.hrw.njqwtest.base.BaseViewModel;
 import com.hrw.njqwtest.base.net.ResponseListener;
 import com.hrw.njqwtest.bean.LoginUserBO;
 import com.hrw.njqwtest.viewmodel.net.LoginRepository;
+
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * @version 1.0.0
@@ -13,10 +13,10 @@ import com.hrw.njqwtest.viewmodel.net.LoginRepository;
  * @date:2020/01/17 16:55
  * @desc:
  */
-public class LoginUserModel extends ViewModel {
-    MutableLiveData<LoginUserBO> loginUserLiveData;
+public class LoginUserModel extends BaseViewModel {
+    private MutableLiveData<LoginUserBO> loginUserLiveData;
 
-    LoginRepository mLoginRepository;
+    private LoginRepository mLoginRepository;
 
     public LoginUserModel() {
         loginUserLiveData = new MutableLiveData<>();

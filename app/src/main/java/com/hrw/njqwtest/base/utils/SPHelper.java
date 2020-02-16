@@ -12,27 +12,33 @@ import com.alibaba.fastjson.JSONObject;
  * @date:2020/01/19 11:10
  * @desc:
  */
-public class SPUtil {
-    private static Manager mManager;
+public class SPHelper {
+    public Manager manager;
 
-    private static SPUtil mSpUtil;
+    private static SPHelper mSpUtil;
 
-    private SPUtil(Context content, String name) {
+    private SPHelper(Context content, String name) {
         SharedPreferences mPreferences = content.getSharedPreferences(name, Context.MODE_PRIVATE);
-        mManager = new Manager(mPreferences);
+        manager = new Manager(mPreferences);
     }
 
-
-    public static SPUtil INSTANCE(Context content, String name) {
-        if (mSpUtil == null) {
-            mSpUtil = new SPUtil(content, name);
+    public static SPHelper getInstance(){
+        if (mSpUtil==null){
+            throw new NullPointerException("It must be instantiated before use the method");
         }
         return mSpUtil;
     }
 
-    public static Manager MANAGER() {
-        return mManager;
+    public static void instance(Context content, String name) {
+        if (mSpUtil == null) {
+            synchronized (SPHelper.class) {
+                if (mSpUtil == null) {
+                    mSpUtil = new SPHelper(content, name);
+                }
+            }
+        }
     }
+
 
     public class Manager {
         private SharedPreferences mPreferences;
