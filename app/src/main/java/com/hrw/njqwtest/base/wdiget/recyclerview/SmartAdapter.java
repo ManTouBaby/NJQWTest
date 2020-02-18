@@ -4,20 +4,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author:MtBaby
  * @date:2020/02/15 21:47
  * @desc:
  */
-public abstract class SmartAdapter<T, VDB extends ViewDataBinding> extends RecyclerView.Adapter<SmartViewHolder<VDB>> {
+public abstract class SmartAdapter<T> extends RecyclerView.Adapter<SmartViewHolder> {
     protected List<T> mDates = new ArrayList<>();
     protected int mResLayout;
     protected OnItemClickListener<T> onItemClickListener;
@@ -39,20 +40,21 @@ public abstract class SmartAdapter<T, VDB extends ViewDataBinding> extends Recyc
 
     @NonNull
     @Override
-    public SmartViewHolder<VDB> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(mResLayout, parent, false);
-        return new SmartViewHolder<>(view);
+    public SmartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), mResLayout, parent, false);
+        return new SmartViewHolder(dataBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SmartViewHolder<VDB> holder, final int position) {
+    public void onBindViewHolder(@NonNull final SmartViewHolder holder, final int position) {
+        final int layoutPosition = holder.getLayoutPosition();
         final T t = mDates.get(position);
-        View root = holder.getDataBinding().getRoot();
+        View root = holder.getViewDataBinding().getRoot();
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.itemClick(t, position);
+                    onItemClickListener.itemClick(t, layoutPosition);
                 }
             }
         });
@@ -61,15 +63,15 @@ public abstract class SmartAdapter<T, VDB extends ViewDataBinding> extends Recyc
             @Override
             public boolean onLongClick(View v) {
                 if (onItemLongClickListener != null) {
-                    onItemLongClickListener.itemLongClick(t, position);
+                    onItemLongClickListener.itemLongClick(t, layoutPosition);
                 }
                 return false;
             }
         });
-        onBindView(holder, t, position);
+        onBindView(holder, t, layoutPosition);
     }
 
-    protected abstract void onBindView(SmartViewHolder<VDB> holder, T t, int position);
+    protected abstract void onBindView(SmartViewHolder holder, T t, int position);
 
 
     @Override
@@ -77,18 +79,30 @@ public abstract class SmartAdapter<T, VDB extends ViewDataBinding> extends Recyc
         return mDates.size();
     }
 
-    protected void addChildViewLongClickLisener(View view, T data, int position) {
-        if (onItemChildLongClickListener != null) {
-            onItemChildLongClickListener.itemChildLongClick(view, data, position);
-
-        }
+    protected void addChildViewLongClickListener(final View view, final T data, final int position) {
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (onItemChildLongClickListener != null) {
+                    onItemChildLongClickListener.itemChildLongClick(view, data, position);
+                }
+                return false;
+            }
+        });
     }
 
-    protected void addChildViewClickLisener(View view, T data, int position) {
-        if (onItemChildClickListener != null) {
-            onItemChildClickListener.itemChildClick(view, data, position);
-        }
+    protected void addChildViewClickListener(final View view, final T data, final int position) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemChildClickListener != null) {
+                    onItemChildClickListener.itemChildClick(view, data, position);
+                }
+            }
+        });
     }
+
+
 
     public void setDates(List<T> dates) {
         this.mDates = dates;
@@ -107,9 +121,10 @@ public abstract class SmartAdapter<T, VDB extends ViewDataBinding> extends Recyc
         notifyItemInserted(beforeInsertCount);
     }
 
-    public void removeData(@IntRange(from = 0) int position) {
+    public void removeData(@IntRange(from = 0) final int position) {
         mDates.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mDates.size());
     }
 
     public void removeDates(List<T> dates) {

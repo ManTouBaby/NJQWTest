@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="loginUser"
             type="com.hrw.njqwtest.bean.LoginUserBO" />
@@ -32,6 +33,7 @@
                     android:text="主页"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
+
             </RelativeLayout>
 
             <View
@@ -99,7 +101,7 @@
                             android:src="@mipmap/diwen" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_sign_list_container"
+                            android:id="@+id/rv_class_list_container"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingLeft="4dp"
