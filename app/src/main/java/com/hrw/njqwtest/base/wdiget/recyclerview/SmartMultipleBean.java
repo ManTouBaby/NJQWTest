@@ -6,7 +6,7 @@ package com.hrw.njqwtest.base.wdiget.recyclerview;
  * @desc:
  */
 public class SmartMultipleBean {
-    private int itemType;
+    protected int itemType;
 
     public int getItemType() {
         return itemType;
