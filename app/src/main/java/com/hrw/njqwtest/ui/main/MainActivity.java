@@ -2,6 +2,10 @@ package com.hrw.njqwtest.ui.main;
 
 import android.view.View;
 
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.hrw.njqwtest.R;
 import com.hrw.njqwtest.base.BaseViewModelActivity;
 import com.hrw.njqwtest.base.net.ResponseListener;
@@ -24,10 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends BaseViewModelActivity<HomeModel, ActivityMainBinding> {
     private SmartMultipleAdapter<ClassListItem> mSmartAdapter;
@@ -89,9 +89,11 @@ public class MainActivity extends BaseViewModelActivity<HomeModel, ActivityMainB
 
         listItems.add(new ClassListItem("李四", "23", 1));
         listItems.add(new ClassListItem("王五", "23", 2));
-        listItems.add(new ClassListItem("赵柳", "23", 1));
-        listItems.add(new ClassListItem("赵柳", "23", 2));
         listItems.add(new ClassListItem("赵柳", "23", 3));
+        listItems.add(new ClassListItem("赵家", "23", 2));
+        listItems.add(new ClassListItem("刘烨", "23", 1));
+        listItems.add(new ClassListItem("周旭", "23", 2));
+        listItems.add(new ClassListItem("何杰", "23", 3));
         mSmartAdapter.setDates(listItems);
 
         mSmartAdapter.setOnItemChildClickListener(new OnItemChildClickListener<ClassListItem>() {
