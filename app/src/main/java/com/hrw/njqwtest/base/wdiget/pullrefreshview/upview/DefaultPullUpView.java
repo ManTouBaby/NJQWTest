@@ -1,10 +1,11 @@
-package com.hrw.njqwtest.base.wdiget.pullrefreshview;
+package com.hrw.njqwtest.base.wdiget.pullrefreshview.upview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hrw.njqwtest.R;
+import com.hrw.njqwtest.base.wdiget.pullrefreshview.BasePullUpView;
 
 /**
  * @version 1.0.0
@@ -12,24 +13,24 @@ import com.hrw.njqwtest.R;
  * @date:2020/02/19 16:26
  * @desc:
  */
-public class DefaultPullDownView extends BasePullDownView {
-    public DefaultPullDownView(Context context) {
+public class DefaultPullUpView extends BasePullUpView {
+    public DefaultPullUpView(Context context) {
         super(context);
     }
 
 
     @Override
-    public void onPullDowning() {
+    public void onPullUpping() {
 
     }
 
     @Override
-    public void onLosePullDown() {
+    public void onLosePullUp() {
 
     }
 
     @Override
-    public void onPullDown() {
+    public void onPullUp() {
 
     }
 
@@ -40,7 +41,7 @@ public class DefaultPullDownView extends BasePullDownView {
 
     @Override
     public View getViewLayout() {
-        return LayoutInflater.from(mContext).inflate(R.layout.pull_down_layout, this, false);
+        return LayoutInflater.from(mContext).inflate(R.layout.pull_up_layout, this, false);
     }
 
 

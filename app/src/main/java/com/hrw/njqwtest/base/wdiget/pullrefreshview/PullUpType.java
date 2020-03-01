@@ -2,6 +2,8 @@ package com.hrw.njqwtest.base.wdiget.pullrefreshview;
 
 import android.content.Context;
 
+import com.hrw.njqwtest.base.wdiget.pullrefreshview.upview.DefaultPullUpView;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 

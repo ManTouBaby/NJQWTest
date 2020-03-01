@@ -108,16 +108,16 @@
 
                     </LinearLayout>
 
-                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                        android:id="@+id/srl_sign_list_container_refresh"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone">
-
-
-                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
                 </com.hrw.njqwtest.base.wdiget.pullrefreshview.SmartContainerLayout>
 
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/srl_sign_list_container_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </LinearLayout>
 
